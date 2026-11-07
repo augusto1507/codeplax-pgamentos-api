@@ -1,7 +1,9 @@
 package com.example.codeplaxpagamentosapi.exeptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class ErroAplicacao extends RuntimeException {
     private final HttpStatus status;
     private final String codigo;
