@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,16 +26,31 @@ public class Cobranca {
 
     @Column(length = 4, nullable = false)
     private String cartaoFinal;
+    private Integer eventoId;
+    private Integer quantidade;
+
+    @Column(columnDefinition = "text")
+    private String callbackUrl;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime criadoEm;
+
+    @PrePersist
+    public void aoCriar() {
+        if (criadoEm == null) criadoEm = LocalDateTime.now();
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusCobranca status = StatusCobranca.PENDENTE;
 
     @Column()
+    @Builder.Default
     private Integer tentativasWebhook = 0;
 
     @Column()
-    private Boolean webhook = false;
+    @Builder.Default
+    private Boolean webhookEntregue = false;
 
 
 }
